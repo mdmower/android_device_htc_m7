@@ -15,7 +15,61 @@
 #
 
 # call the proprietary setup
+ifeq ($(TARGET_DEVICE),m7spr)
+$(call inherit-product-if-exists, vendor/htc/m7spr/m7spr-vendor.mk)
+else ifeq ($(TARGET_DEVICE),m7vzw)
+$(call inherit-product-if-exists, vendor/htc/m7vzw/m7vzw-vendor.mk)
+else
 $(call inherit-product-if-exists, vendor/htc/m7/m7-vendor.mk)
+endif
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    rild.libargs="-d /dev/smd0" \
+    rild.libpath=/system/lib/libril-qc-qmi-1.so
+
+# Device specific build properties
+ifeq ($(TARGET_DEVICE),m7spr)
+PRODUCT_PROPERTY_OVERRIDES += \
+    gsm.operator.alpha=Sprint \
+    gsm.operator.iso-country=us \
+    gsm.operator.numeric=310120 \
+    gsm.sim.operator.alpha=Sprint \
+    gsm.sim.operator.iso-country=us \
+    gsm.sim.operator.numeric=310120 \
+    persist.radio.always_send_plmn=true \
+    persist.radio.apm_sim_not_pwdn=1 \
+    persist.radio.mode_pref_nv10=1 \
+    persist.radio.snapshot_enabled=1 \
+    persist.radio.snapshot_timer=2 \
+    persist.radio.use_nv_for_ehrpd=true \
+    ro.cdma.home.operator.alpha=Sprint \
+    ro.cdma.home.operator.numeric=310120 \
+    ro.telephony.default_network=10 \
+    telephony.lteOnCdmaDevice=1
+else ifeq ($(TARGET_DEVICE),m7vzw)
+PRODUCT_PROPERTY_OVERRIDES += \
+    gsm.operator.alpha=Verizon \
+    gsm.operator.iso-country=us \
+    gsm.operator.numeric=311480 \
+    gsm.sim.operator.alpha=Verizon \
+    gsm.sim.operator.iso-country=us \
+    gsm.sim.operator.numeric=311480 \
+    persist.radio.add_power_save=1 \
+    persist.radio.snapshot_enabled=1 \
+    persist.radio.snapshot_timer=22 \
+    ro.cdma.home.operator.alpha=Verizon \
+    ro.cdma.home.operator.numeric=311480 \
+    ro.cdma.subscribe_on_ruim_ready=true \
+    ro.ril.wp.feature=1 \
+    ro.telephony.default_cdma_sub=0 \
+    ro.telephony.default_network=10 \
+    ro.use_data_netmgrd=true \
+    telephony.lteOnCdmaDevice=1
+else
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.default_network=9 \
+    telephony.lteOnGsmDevice=1
+endif
 
 # Inherit from m7-common
 $(call inherit-product, device/htc/m7-common/m7-common.mk)

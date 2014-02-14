@@ -28,38 +28,37 @@
 -include device/htc/m7-common/BoardConfigCommon.mk
 
 # Assert
+ifeq ($(TARGET_DEVICE),m7spr)
+TARGET_OTA_ASSERT_DEVICE := m7spr,m7wls
+else ifeq ($(TARGET_DEVICE),m7vzw)
+TARGET_OTA_ASSERT_DEVICE := m7vzw,m7wlv
+else
 TARGET_OTA_ASSERT_DEVICE := m7,m7att,m7tmo,m7ul
+endif
 
 # Bootloader
+ifeq ($(TARGET_DEVICE),m7spr)
+TARGET_BOOTLOADER_BOARD_NAME := m7wls
+else ifeq ($(TARGET_DEVICE),m7vzw)
+TARGET_BOOTLOADER_BOARD_NAME := m7wlv
+else
 TARGET_BOOTLOADER_BOARD_NAME := m7
+endif
 
 # Filesystem
+ifeq ($(TARGET_DEVICE),m7vzw)
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2348809216
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 27380416512
+else
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1946156032
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 27917287424
-
-# cat /proc/emmc:
-# dev:        size     erasesize name
-# mmcblk0p19: 000ffa00 00000200 "misc"
-# mmcblk0p34: 00fffe00 00000200 "recovery"
-# mmcblk0p33: 01000000 00000200 "boot"
-# mmcblk0p35: 73fffc00 00000200 "system"
-# mmcblk0p26: 00140200 00000200 "local"
-# mmcblk0p36: 27fffe00 00000200 "cache"
-# mmcblk0p37: 680000000 00000200 "userdata"
-# mmcblk0p22: 01400000 00000200 "devlog"
-# mmcblk0p24: 00040000 00000200 "pdata"
-# mmcblk0p27: 00010000 00000200 "extra"
-# mmcblk0p31: 04b00200 00000200 "radio"
-# mmcblk0p16: 03c00400 00000200 "adsp"
-# mmcblk0p15: 00100000 00000200 "dsps"
-# mmcblk0p17: 007ffa00 00000200 "radio_config"
-# mmcblk0p20: 00400000 00000200 "modem_st1"
-# mmcblk0p21: 00400000 00000200 "modem_st2"
-# mmcblk0p28: 00100000 00000200 "cdma_record"
-# mmcblk0p18: 02000000 00000200 "reserve_1"
-# mmcblk0p30: 034ffa00 00000200 "reserve_2"
-# mmcblk0p32: 05fffc00 00000200 "reserve_3"
-# mmcblk0p29: 06069e00 00000200 "reserve"
+endif
 
 # inherit from the proprietary version
+ifeq ($(TARGET_DEVICE),m7spr)
+-include vendor/htc/m7spr/BoardConfigVendor.mk
+else ifeq ($(TARGET_DEVICE),m7vzw)
+-include vendor/htc/m7vzw/BoardConfigVendor.mk
+else
 -include vendor/htc/m7/BoardConfigVendor.mk
+endif

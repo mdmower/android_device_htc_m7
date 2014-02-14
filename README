@@ -1,3 +1,8 @@
 Copyright 2013 - The CyanogenMod Project
 
-Device configuration for the HTC One (GSM models).
+Device configuration for the HTC One.
+
+This repositories supports:
+ m7 - GSM
+ m7spr - Sprint
+ m7vzw - Verizon

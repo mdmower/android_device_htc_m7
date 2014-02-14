@@ -29,8 +29,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/htc/m7/device.mk)
 
 # Set those variables here to overwrite the inherited values.
+ifeq ($(TARGET_DEVICE),m7spr)
+PRODUCT_NAME := full_m7spr
+PRODUCT_DEVICE := m7spr
+else ifeq ($(TARGET_DEVICE),m7vzw)
+PRODUCT_NAME := full_m7vzw
+PRODUCT_DEVICE := m7vzw
+else
 PRODUCT_NAME := full_m7
 PRODUCT_DEVICE := m7
+endif
 PRODUCT_BRAND := htc
 PRODUCT_MANUFACTURER := HTC
 PRODUCT_MODEL := One
