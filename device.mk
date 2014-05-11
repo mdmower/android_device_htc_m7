@@ -23,9 +23,8 @@ else
 $(call inherit-product-if-exists, vendor/htc/m7/m7-vendor.mk)
 endif
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    rild.libargs="-d /dev/smd0" \
-    rild.libpath=/system/lib/libril-qc-qmi-1.so
+PRODUCT_PACKAGES += \
+    init.target.rc
 
 # Device specific build properties
 ifeq ($(TARGET_DEVICE),m7spr)
